@@ -16,7 +16,7 @@ class ConectFrame():
         # Optional Graphic parameters
         self.padx = 20
         self.pady = 5
-
+        #NIgga Adeo
         # Put on the grid all the elements
         self.publish()       
 
