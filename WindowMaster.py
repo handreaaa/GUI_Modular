@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
-
+import threading
 
 class RootGUI():
     def __init__(self):
@@ -14,13 +14,14 @@ class RootGUI():
 
 # Class to setup and create the communication manager with MCU
 class ComGui():
-    def __init__(self, root, serial):
+    def __init__(self, root, serial,data):
         '''
         Initialize the connexion GUI and initialize the main widgets 
         '''
         # Initializing the Widgets
         self.root = root
         self.serial = serial
+        self.data =data
         self.frame = LabelFrame(root, text="Com Manager",
                                 padx=5, pady=5, bg="white")
         self.label_com = Label(
@@ -115,12 +116,15 @@ class ComGui():
 
                 # Display the channel manager
                 self.conn = ConnGUI(self.root, self.serial)
-
+                self.serial.t1 = threading.Thread(
+                    target=self.serial.SerialSync, args=(self,),daemon=True
+                )
+                self.serial.t1.start()
             else:
                 ErrorMsg = f"Failure to estabish UART connection using {self.clicked_com.get()} "
                 messagebox.showerror("showerror", ErrorMsg)
         else:
-
+            self.serial.threading = False
             # Closing the Serial COM
             # Close the serial communication
             self.serial.SerialClose(self)
