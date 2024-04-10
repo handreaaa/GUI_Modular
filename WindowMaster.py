@@ -1,27 +1,45 @@
 from tkinter import *
-#Handrea branch
+import csv  
 
-#inicializar Root de la Ventana
-class RootWindow:
-    def __init__(self,title,size) :
+class RootGUI():
+    def __init__(self):
+        '''Initializing the root GUI and other comps of the program'''
         self.root = Tk()
-        self.root.title(title)
-        self.root.geometry(size)
+        self.root.title("Serial communication")
+        self.root.geometry("360x120")
         self.root.config(bg="white")
 
-class ConectFrame():
-    def __init__(self,root) :
+# Class to setup and create the communication manager with MCU
+class ComGui():
+    def __init__(self, root):
+        '''
+        Initialize the connexion GUI and initialize the main widgets 
+        '''
+        # Initializing the Widgets
         self.root = root
-        self.frame = LabelFrame(root, text="Com Manager",padx=5, pady=5, bg="white")
-        self.label_com = Label(self.frame, text="Available Port(s): ", bg="white", width=15, anchor="w")
-        self.label_bd = Label(self.frame, text="Baude Rate: ", bg="white", width=15, anchor="w")
-        # Optional Graphic parameters
-        self.padx = 20
-        self.pady = 5
+        self.frame = LabelFrame(root, text="Com Manager", padx=5, pady=5, bg="white")
+        ...
+        # Botón para guardar datos en CSV
+        self.btn_save_csv = Button(self.frame, text="Save as CSV", width=10, state="disabled", command=self.save_data_to_csv)
+        ...
+        # Llamar a publish para asegurar que todos los elementos sean mostrados
+        self.publish()
 
-        # Put on the grid all the elements
-        self.publish()       
+    def publish(self):
+        ...
+        self.btn_save_csv.grid(column=3, row=4)  
+
+    def save_data_to_csv(self):
+        # Aqui deberán ir los datos de la gráfica en un archivo CSV
+        data = [["Time", "Value"], [1, 100], [2, 200], [3, 300]]  
+        with open('data.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(data)
+        print("Data saved to CSV.")  # Confirmación en la consola
+
+    ...
 
 if __name__ == "__main__":
-    RootWindow()
-    ConectFrame()
+    root = RootGUI()
+    com_gui = ComGui(root.root)
+    root.root.mainloop()  
