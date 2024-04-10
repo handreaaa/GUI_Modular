@@ -2,16 +2,17 @@ class DataMaster():
     def __init__(self):
         
         self.SynchChannel = 0
-
+        self.channels = 0
         self.msg = 0
-
         self.XData = []
         self.YData = []
 
     def DecodeMsg(self):
         temp = self.RowMsg.decode('ascii').strip().split(',')
-        a1= [int(s) for s in temp]
-        self.msg = a1[0]  
+        temp= [s for s in temp if s.strip()]
+        self.channels = len(temp)
+        self.msg = temp
+        
         '''
         if len(temp) > 0:
             if "#" in temp:

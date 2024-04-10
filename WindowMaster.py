@@ -115,7 +115,7 @@ class ComGui():
                 messagebox.showinfo("showinfo", InfoMsg)
 
                 # Display the channel manager
-                self.conn = ConnGUI(self.root, self.serial)
+                self.conn = ConnGUI(self.root, self.serial,self.data)
                 self.serial.t1 = threading.Thread(
                     target=self.serial.SerialSync, args=(self,),daemon=True
                 )
@@ -141,10 +141,11 @@ class ComGui():
 
 
 class ConnGUI():
-    def __init__(self, root, serial):
+    def __init__(self, root, serial,data):
         '''
         Initialize main Widgets for communication GUI
         '''
+        self.data = data
         self.root = root
         self.serial = serial
 

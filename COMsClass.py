@@ -7,7 +7,7 @@ class SerialCtrl():
         '''
         Initializing the main varialbles for the serial data
         '''
-        self.sync_cnt = 200
+        self.sync_cnt = 500
         pass
 
     def getCOMList(self):
@@ -67,21 +67,24 @@ class SerialCtrl():
                 gui.data.RowMsg = self.ser.readline()
                 # print(f"RowMsg: {gui.data.RowMsg}")
                 gui.data.DecodeMsg()
-                if int(gui.data.msg) > 0:
+                
+                if gui.data.channels> 0:
+                    
                     gui.conn.btn_start_stream["state"] = "active"
                     gui.conn.btn_add_chart["state"] = "active"
                     gui.conn.btn_kill_chart["state"] = "active"
                     gui.conn.save_check["state"] = "active"
                     gui.conn.sync_status["text"] = "OK"
                     gui.conn.sync_status["fg"] = "green"
-                    gui.conn.ch_status["text"] = gui.data.msg
+                    gui.conn.ch_status["text"] = gui.data.channels
                     gui.conn.ch_status["fg"] = "green"
-                    gui.data.SynchChannel = int(gui.data.msg)
-                    
+                    gui.data.SynchChannel = gui.data.channels
                     gui.data.buildYdata()
                     print(gui.data.YData)
-                    self.threading = False
+                    self.threading == False 
                     break
+                   
+                    
                 if self.threading == False:
                     break
             except Exception as e:
@@ -90,6 +93,8 @@ class SerialCtrl():
             if self.threading == False:
                 break
             if cnt > self.sync_cnt:
+                self.threading = False
+                    
                 cnt = 0
                 gui.conn.sync_status["text"] = "failed"
                 gui.conn.sync_status["fg"] = "red"
