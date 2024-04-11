@@ -10,8 +10,10 @@ class DataMaster():
     def DecodeMsg(self):
         temp = self.RowMsg.decode('ascii').strip().split(',')
         temp= [s for s in temp if s.strip()]
-        self.channels = len(temp)
-        self.msg = temp
+        if len(temp)>0:
+            
+            self.channels = len(temp)
+            self.msg = temp
         
         '''
         if len(temp) > 0:

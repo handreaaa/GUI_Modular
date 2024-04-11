@@ -109,8 +109,7 @@ class SerialCtrl():
                 gui.data.RowMsg = self.ser.readline()
                 # print(f"RowMsg: {gui.data.RowMsg}")
                 gui.data.DecodeMsg()
-                if gui.data.channels> 0:
-                    print(gui.data.msg)
+                print(gui.data.msg)
             except:
                 pass
 
