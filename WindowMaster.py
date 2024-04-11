@@ -4,12 +4,22 @@ from tkinter import ttk
 import threading
 
 class RootGUI():
-    def __init__(self):
+    def __init__(self,serial,data):
         '''Initializing the root GUI and other comps of the program'''
         self.root = Tk()
         self.root.title("Serial communication")
         self.root.geometry("360x120")
         self.root.config(bg="white")
+        self.data = data
+        self.serial = serial
+
+        self.root.protocol("WM_DELETE_WINDOW", self.close_window)
+
+    def close_window(self):
+        print("Closing the window and exit")
+        self.root.destroy()
+        self.serial.SerialClose(self)
+        self.serial.threading = False
 
 
 # Class to setup and create the communication manager with MCU
@@ -132,7 +142,7 @@ class ComGui():
             # Closing the Conn Manager
             # Destroy the channel manager
             self.conn.ConnGUIClose()
-
+            self.data.ClearData()
             InfoMsg = f"UART connection using {self.clicked_com.get()} is now closed"
             messagebox.showwarning("showinfo", InfoMsg)
             self.btn_connect["text"] = "Connect"
@@ -224,10 +234,14 @@ class ConnGUI():
         self.root.geometry("360x120")
 
     def start_stream(self):
-        pass
-
+        self.btn_start_stream["state"]="disabled"
+        self.btn_stop_stream["state"]="active"
+        self.serial.t1 = threading.Thread(target=self.serial.SerialDataStream,args=(self,),daemon=True)
+        self.serial.t1.start()
     def stop_stream(self):
-        pass
+        self.btn_start_stream["state"]="active"
+        self.btn_stop_stream["state"]="disabled"
+        self.serial.threading = False
 
     def new_chart(self):
         pass

@@ -101,5 +101,19 @@ class SerialCtrl():
                 time.sleep(0.5)
                 if self.threading == False:
                     break
+    def SerialDataStream(self,gui):
+        self.threading = True
+        cnt = 0
+        while self.threading:
+            try:
+                gui.data.RowMsg = self.ser.readline()
+                # print(f"RowMsg: {gui.data.RowMsg}")
+                gui.data.DecodeMsg()
+                if gui.data.channels> 0:
+                    print(gui.data.msg)
+            except:
+                pass
+
+
 if __name__ == "__main__":
     SerialCtrl()
