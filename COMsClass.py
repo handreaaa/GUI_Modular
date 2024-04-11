@@ -109,9 +109,22 @@ class SerialCtrl():
                 gui.data.RowMsg = self.ser.readline()
                 # print(f"RowMsg: {gui.data.RowMsg}")
                 gui.data.DecodeMsg()
-                print(gui.data.msg)
-            except:
-                pass
+                if gui.data.SynchChannel ==8:
+                    gui.data.SetRefTime()
+                    break
+            except Exception as e:
+                print(e)
+        while self.threading:
+            try:
+                gui.data.RowMsg = self.ser.readline()
+                # print(f"RowMsg: {gui.data.RowMsg}")
+                gui.data.DecodeMsg()
+                gui.data.UpdataXdata()
+                gui.data.UpdataYdata()
+                Ysam = [Ys[len(gui.data.XData)-1] for Ys in gui.data.YData]
+                print(f"x: {gui.data.XData[len(gui.data.XData)-1]}  y:{Ysam}")
+            except Exception as e:
+                print(e)
 
 
 if __name__ == "__main__":

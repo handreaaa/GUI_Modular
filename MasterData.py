@@ -1,3 +1,4 @@
+import time
 class DataMaster():
     def __init__(self):
         
@@ -35,3 +36,18 @@ class DataMaster():
         self.RowMsg = ""
         self.msg = 0
         self.Ydata = []
+    def SetRefTime(self):
+        if len(self.XData) == 0:
+            self.RefTime = time.perf_counter()
+        else:
+            self.RefTime = time.perf_counter() - self.XData[len(self.XData)-1]
+
+    def UpdataXdata(self):
+        if len(self.XData) == 0:
+            self.XData.append(0)
+        else:
+            self.XData.append(time.perf_counter()-self.RefTime)
+
+    def UpdataYdata(self):
+        for ChNumber in range(self.SynchChannel):
+            self.YData[ChNumber].append(self.msg[ChNumber])
