@@ -199,6 +199,7 @@ class ConnGUI():
 
         # Extending the GUI
         self.ConnGUIOpen()
+        self.chartMaster = DisGUI(self.root, self.serial,self.data)
 
     def ConnGUIOpen(self):
         '''
@@ -244,7 +245,7 @@ class ConnGUI():
         self.serial.threading = False
 
     def new_chart(self):
-        pass
+        self.chartMaster.AddChannelMaster()
 
     def kill_chart(self):
         pass
@@ -252,8 +253,29 @@ class ConnGUI():
     def save_data(self):
         pass
 
+class DisGUI():
+    def __init__(self,root,serial,data):
+        self.root = root
+        self.serial = serial
+        self.data = data
+
+        self.frameCol = 0
+        self.frameRow=4
+    def AddChannelMaster(self):
+        self.AddMasterFrame()
+        self.AdjustRootFrame()
+    def AddMasterFrame(self):
+        self.frame = LabelFrame(self.root, text="Displayed Manager", padx=5,pady=5, bg="white")
+        self.frame.grid(padx=5,column=self.frameCol,row=self.frameRow,columnspan=9,sticky=NW)
+    def AdjustRootFrame(self):
+        RootWD = 800
+        RootH = 600
+        self.root.geometry(f"{RootWD}x{RootH}")
+    def AddGraph(self):
+        pass 
 
 if __name__ == "__main__":
     RootGUI()
     ComGui()
     ConnGUI()
+    DisGUI()

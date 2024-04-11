@@ -1,4 +1,5 @@
 import time
+import numpy as np
 class DataMaster():
     def __init__(self):
         
@@ -7,6 +8,7 @@ class DataMaster():
         self.msg = 0
         self.XData = []
         self.YData = []
+        self.DisplayTimeRange = 5
 
     def DecodeMsg(self):
         temp = self.RowMsg.decode('ascii').strip().split(',')
@@ -51,3 +53,12 @@ class DataMaster():
     def UpdataYdata(self):
         for ChNumber in range(self.SynchChannel):
             self.YData[ChNumber].append(self.msg[ChNumber])
+    def AdjustData(self):
+        lenXdata = len(self.XData)
+        if (self.XData[lenXdata-1]-self.XData[0])> self.DisplayTimeRange:
+            del self.XData[0]
+            for ydata in self.YData:
+                del ydata[0]
+        x = np.array(self.XData)
+        self.XDisplay = np.linspace(x.min(), x.max(), len(x), endpoint=0)
+        self.YDisplay =  np.array(self.YData)

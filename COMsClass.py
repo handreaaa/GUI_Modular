@@ -121,8 +121,10 @@ class SerialCtrl():
                 gui.data.DecodeMsg()
                 gui.data.UpdataXdata()
                 gui.data.UpdataYdata()
-                Ysam = [Ys[len(gui.data.XData)-1] for Ys in gui.data.YData]
-                print(f"x: {gui.data.XData[len(gui.data.XData)-1]}  y:{Ysam}")
+                gui.data.AdjustData()
+                #Ysam = [Ys[len(gui.data.XData)-1] for Ys in gui.data.YData]
+                #print(f"x: {gui.data.XData[len(gui.data.XData)-1]}  y:{Ysam}")
+                #print(f"{len(gui.data.XData)}, {len(gui.data.YData[0])}")
             except Exception as e:
                 print(e)
 
